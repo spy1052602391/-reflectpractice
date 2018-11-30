@@ -1,0 +1,66 @@
+package 反射实现调用普通方法;
+
+import java.lang.reflect.Method;
+
+class Student{
+    private int age;
+    private String name;
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "age=" + age +
+                ", name='" + name + '\'' +
+                '}';
+    }
+}
+
+class Person{
+    String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+}
+
+public class Test {
+    public static void main(String[] args) throws Exception{
+        //1.拿到StudentClass对象
+        Class<?> cls = Student.class;
+        //2.创建Student实例化对象
+        Student stu = (Student)cls.newInstance();
+        //3.拿到setName的Method对象
+        Method setMethod = cls.getMethod("setName",String.class);
+        //4.通过invoke进行调用
+        setMethod.invoke(stu,"张三");
+        Method setMethod1 = cls.getMethod("getName");
+        System.out.println(setMethod1.invoke(stu));
+    }
+}
